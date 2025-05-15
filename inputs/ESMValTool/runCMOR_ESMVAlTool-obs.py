@@ -1,3 +1,5 @@
+# Modified 25-05-15 by PS for testing with ESMValTool processed dataset SAGE-CCI-OMPS+
+# See RC #457 
 import cmor
 import xarray as xr
 from xarray.coding.times import encode_cf_datetime
@@ -36,8 +38,8 @@ cmorTime = cmor.axis("time", coord_vals=f.time.values, cell_bounds=f.time_bnds.v
 axes = [cmorTime, cmorLat, cmorLon]
 
 ############ DATASET SPECIFIC
-if inputVarName in ['cli']:
-    cmorLev = cmor.axis('plev27',coord_vals=f.plev.values,units = 'Pa')
+if inputVarName in ['o3']:
+    cmorLev = cmor.axis('alt41',coord_vals=f.plev.values,units = 'km')
     axes = [cmorTime, cmorLev, cmorLat, cmorLon]
 ############
 
@@ -45,8 +47,8 @@ if inputVarName in ['cli']:
 varid   = cmor.variable(inputVarName,vunits,axes,missing_value=1.e20,positive="up")
 values  = np.array(d[:],np.float32)
 
-############ DATASET SPECIFIC 
-if inputVarName in ['rlus','rlut','rlutcs','rsdt','rsus','rsuscs','rsut','rsutcs']: varid = cmor.variable(inputVarName,vunits,axes,missing_value=1.e20,positive="up")
+############ DATASET SPECIFIC # Adding o3 for the SAGE-CCI-OMPS+ dataset 
+if inputVarName in ['o3']: varid = cmor.variable(inputVarName,vunits,axes,missing_value=1.e20,positive="up")
 ############
 
 # Prepare variable for writing, then write and close file - see https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_set_variable_attribute
