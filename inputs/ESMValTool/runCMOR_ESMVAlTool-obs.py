@@ -1,5 +1,9 @@
 # Modified 25-05-15 by PS for testing with ESMValTool processed dataset SAGE-CCI-OMPS+
 # See RC #457 
+
+import pandas as pd
+import netCDF4 as nc
+from netCDF4 import Dataset 
 import cmor
 import xarray as xr
 from xarray.coding.times import encode_cf_datetime
@@ -8,17 +12,16 @@ import cftime
 import sys,os,glob
 
 #%% User provided input 
-cmorTable = '../../Tables/obs4MIPs_Amon.json' ; # Aday,Amon,Lmon,Omon,SImon,fx
+cmorTable = '/Users/paul.smith/demo/Tables/obs4MIPs_Amon.json' ; # Aday,Amon,Lmon,Omon,SImon,fx
 
 #EXAMPLES with command line input
-# python -i runCMOR_ESMVAlTool-obs.py o3 SAGE-CCI-OMPS_input.json /p/user_pub/Darwyn72/obs4MIPs/inputs/ESMValTool/OBS6_ESACCI-OZONE_sat_L3_AERmon_o3_198410-202212.nc
+# python -i runCMOR_ESMVAlTool-obs.py 
+
 # python -i runCMOR_ESMVAlTool-obs.py rlut CALIPSO-ICECLOUD_input.json /p/user_pub/PCMDIobs/obs4MIPs_input/ESMValTool/ESACCI-CLOUD/cli_mon_CALIPSO-ICECLOUD-1-00_DLR_200701-201512.nc
 
-command_line  = True
-if command_line == True:
- inputVarName = sys.argv[1] 
- inputJson = sys.argv[2] 
- inputFilePathbgn = sys.argv[3]
+inputVarName = 'o3'
+inputJson = '/Users/paul.smith/demo/Tables/SAGE-CCI-OMPS_input.json'
+inputFilePathbgn = '/Users/paul.smith/demo/Data/OBS6_ESACCI-OZONE_sat_L3_AERmon_o3_198410-202212.nc'
 
 ###
 f = xr.open_dataset(inputFilePathbgn,decode_times=False, decode_cf=False)
@@ -39,7 +42,7 @@ axes = [cmorTime, cmorLat, cmorLon]
 
 ############ DATASET SPECIFIC
 if inputVarName in ['o3']:
-    cmorLev = cmor.axis('alt41',coord_vals=f.plev.values,units = 'km')
+    cmorLev = cmor.axis('alt41',coord_vals=f.alt16.values,units = 'km')
     axes = [cmorTime, cmorLev, cmorLat, cmorLon]
 ############
 
