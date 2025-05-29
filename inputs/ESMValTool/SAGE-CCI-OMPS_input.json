@@ -32,5 +32,5 @@
       	"variant_label":"SAGE-CCI-OMPS_REF",
         "calendar":"gregorian",
       	"mip_era":"REF",
-        "outpath":"/home/users/Darwyn72/obs4MIPs/inputs/ESMValTool/out/"
+        "outpath":"/Users/paul.smith/demo/Obs4MIPs/ESMValTool/out/"
 }
